@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//imports file from reader after convert to arraylist
 public class ImportUtil {
     private static final ArrayList<String> words = new ArrayList<>();
 
