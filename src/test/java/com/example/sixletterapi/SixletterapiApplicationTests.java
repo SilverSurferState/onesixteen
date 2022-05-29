@@ -66,4 +66,21 @@ class SixletterapiApplicationTests {
         assertTrue(collectedWords.get("leader").contains("le"));
     }
 
+//    @Test
+//    void getComboBrute() {
+//        ArrayList<String> words = (ArrayList<String>) puzzler.getXLetterWords(puzzler.getAllWords(), 6);
+//        ArrayList<String> partials = (ArrayList<String>) puzzler.getPartialWords(puzzler.getAllWords(), 6);
+//        ArrayList<String> list = puzzler.findComboBrute(words, partials);
+//        System.out.println(list);
+//    }
+
+
+      @Test
+      void testCombo(){
+          puzzler.fillHashMap(puzzler.getAllWords());
+          System.out.println(puzzler.printCombo());
+      }
+
+
+
 }

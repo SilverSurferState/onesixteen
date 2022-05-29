@@ -1,9 +1,6 @@
 package com.example.sixletterapi.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WordPuzzler {
@@ -39,6 +36,69 @@ public class WordPuzzler {
                 }
             }
         }
+    }
+
+//    public ArrayList<String> findComboBrute(List<String> targets, List<String> partials){
+//        ArrayList<String> combo = new ArrayList<>();
+//        for(String word : targets){
+//            for (String partOne : partials) {
+//                for (int j = 1; j < targets.size(); j++) {
+//                    String partTwo = partials.get(j);
+//                    if ((partOne + partTwo).equals(word)) {
+//                        combo.add(partOne + " + " + partTwo + " = " + word);
+//                    }
+//                }
+//            }
+//        }
+//       return combo;
+//    }
+
+
+    public ArrayList<String> findCombo(String word, HashSet<String> partials){
+        Set<String> firstPart = partials.stream().filter(word::startsWith).collect(Collectors.toSet());
+        ArrayList<String> combos = new ArrayList<>();
+        StringBuilder concatForPrint = new StringBuilder();
+        StringBuilder concatForCompare = new StringBuilder();
+        findFirstPart(word, partials, firstPart, combos, concatForPrint, concatForCompare);
+        return combos;
+    }
+
+    private void findFirstPart(String word, HashSet<String> partials, Set<String> firstPart, ArrayList<String> combos, StringBuilder concatForPrint, StringBuilder concatForCompare){
+        for(String first : firstPart){
+            concatForCompare.append(first);
+            concatForPrint.append(first).append(" + ");
+            while(concatForCompare.length() <= word.length()){
+                if(concatForCompare.toString().equals(word)){
+                    combos.add(concatForPrint.toString());
+                    concatForCompare.setLength(0);
+                    concatForPrint.setLength(0);
+                    break;
+                }
+                String last = word.substring(first.length());
+                findSecondPart(word, partials, concatForCompare, concatForPrint, last);
+            }
+        }
+    }
+
+    private void findSecondPart(String word, HashSet<String> partials, StringBuilder concatForCompare, StringBuilder concatForPrint, String last){
+        if(partials.contains(last)){
+            concatForCompare.append(last);
+            if(!word.endsWith(last)) concatForPrint.append(last).append(" + ");
+            else concatForPrint.append(last).append(" = ").append(word);
+        }
+    }
+
+    public String printCombo(){
+        StringBuilder printer = new StringBuilder();
+        for(String word: collection.keySet()){
+            printer.append(word).append("\n");
+            printer.append(getCollection().get(word)).append("\n");
+            for(String combo : findCombo(word, getCollection().get(word))){
+                printer.append(combo).append("\n");
+            }
+            printer.append("------").append("\n");
+        }
+        return printer.toString();
     }
 
 
