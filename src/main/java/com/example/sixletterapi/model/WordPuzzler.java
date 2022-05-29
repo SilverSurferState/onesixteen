@@ -14,7 +14,7 @@ public class WordPuzzler {
         this.allWords = allWords;
     }
 
-    private HashMap<String, HashSet<String>> getCollection() {
+    public HashMap<String, HashSet<String>> getCollection() {
         return collection;
     }
 
@@ -27,8 +27,20 @@ public class WordPuzzler {
     }
 
     public List<String> getPartialWords(ArrayList<String> words, int size){
-        return words.stream().filter(e -> e.length() == size).collect(Collectors.toList());
+        return words.stream().filter(e -> e.length() < size).collect(Collectors.toList());
     }
+
+    public void fillHashMap(ArrayList<String> allWords){
+        for(String s : getXLetterWords(allWords, 6)){
+            collection.put(s, new HashSet<>());
+            for(String p : getPartialWords(allWords, 6)){
+                if(s.contains(p)){
+                    collection.get(s).add(p);
+                }
+            }
+        }
+    }
+
 
 
 }

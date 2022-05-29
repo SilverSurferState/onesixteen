@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,10 +51,19 @@ class SixletterapiApplicationTests {
     @Test
     void getPartialWords() {
         ArrayList<String> partials = (ArrayList<String>) puzzler.getPartialWords(puzzler.getAllWords(), 6);
-        assertTrue((partials.get(1).length() == 6));
-        assertTrue((partials.get(5).length() == 6));
-        assertTrue((partials.get(10).length() == 6));
-        assertTrue((partials.get(partials.size()-1).length() == 6));
+        assertTrue((partials.get(1).length() < 6));
+        assertTrue((partials.get(5).length() < 6));
+        assertTrue((partials.get(10).length() < 6));
+        assertTrue((partials.get(partials.size()-1).length() < 6));
+    }
+
+    @Test
+    void fillHashMap(){
+        puzzler.fillHashMap(puzzler.getAllWords());
+        HashMap<String, HashSet<String>> collectedWords = puzzler.getCollection();
+        System.out.println(collectedWords);
+        assertTrue(collectedWords.containsKey("leader"));
+        assertTrue(collectedWords.get("leader").contains("le"));
     }
 
 }
